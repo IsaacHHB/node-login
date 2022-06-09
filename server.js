@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt')
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
+const PORT = 8000
 
 
 const initializePassport = require('./passport-config')
@@ -73,4 +74,6 @@ app.post('/users',(req,res)=>{
 })
 
 
-app.listen(3000)
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port ${PORT}.`)
+})
