@@ -58,7 +58,9 @@ app.post('/register',async (req,res)=>{
             email: req.body.email,
             password: hashedPassword
         })
-        res.redirect('/login')
+        //res.redirect('/login')
+        let tmp_name = "Bob";
+        res.render('regSuccess.ejs', {name: tmp_name});
     }catch{
         res.redirect('/register')
     }
