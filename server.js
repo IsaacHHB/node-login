@@ -9,7 +9,21 @@ const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const PORT = 8000
+const MongoClient = require('mongodb').MongoClient
 
+let db;
+
+console.log('connecting to DB...')
+MongoClient.connect('mongodb+srv://IsaacHHB:Hollowhorn7@cluster0.lkpys.mongodb.net/?retryWrites=true&w=majority', { useUnifiedTopology: true })
+.then(client => {
+  console.log('Connected to Database')
+  db = client.db('stories')
+
+  app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port ${PORT}.`)
+  })
+})
+console.log("DB connect has been kicked off...")
 
 const initializePassport = require('./passport-config')
 initializePassport(
@@ -52,6 +66,20 @@ app.get('/register',(req,res)=>{
 app.post('/register',async (req,res)=>{
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        console.log("register POST received!");
+        const usersCollection = db.collection('users')
+        console.log('new user: ' + req.body.name)
+        usersCollection.insertOne( {
+            userId: Date.now().toString(),
+            userName: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        })
+        .then(result => {
+        res.render('regSuccess.ejs', {name: req.body.name})
+        })
+
+        /*
         users.push({
             id: Date.now().toString(),
             name: req.body.name,
@@ -61,10 +89,12 @@ app.post('/register',async (req,res)=>{
         //res.redirect('/login')
         let tmp_name = "Bob";
         res.render('regSuccess.ejs', {name: tmp_name});
+        */
     }catch{
         res.redirect('/register')
     }
-    console.log(users)
+    
+    //console.log(users)
 })
 
 app.get('/users',(req,res)=>{
@@ -75,7 +105,8 @@ app.post('/users',(req,res)=>{
 
 })
 
-
+/*
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on port ${PORT}.`)
 })
+*/
