@@ -19,10 +19,6 @@ MongoClient.connect('mongodb+srv://IsaacHHB:Hollowhorn7@cluster0.lkpys.mongodb.n
 .then(client => {
   console.log('Connected to Database')
   db = client.db('stories')
-<<<<<<< HEAD
-=======
-
->>>>>>> cd9f613fcb6395fbd138287fcbe62e8f0f223dd8
   app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on port ${PORT}.`)
   })
@@ -53,11 +49,7 @@ app.use(methodOverride('_method'))
 
 
 app.get('/', checkAuthenticated, (req,res)=>{
-<<<<<<< HEAD
     res.render('index.ejs',{name: req.body.name})
-=======
-    res.render('index.ejs',{name: 'Kyle'})
->>>>>>> cd9f613fcb6395fbd138287fcbe62e8f0f223dd8
 })
 
 app.get('/login',checkNotAuthenticated,(req,res)=>{
@@ -99,12 +91,7 @@ app.post('/register',checkNotAuthenticated, async (req,res)=>{
             password: hashedPassword
         })
         //res.redirect('/login')
-<<<<<<< HEAD
         res.render('regSuccess.ejs', {name: req.body.name});
-=======
-        let tmp_name = "Bob";
-        res.render('regSuccess.ejs', {name: tmp_name});
->>>>>>> cd9f613fcb6395fbd138287fcbe62e8f0f223dd8
         
     }catch{
         res.redirect('/register')
